@@ -1,15 +1,26 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 class SearchList extends Component {
   renderTweets() {
-    return (
-      <div>
-        <li className="list-group-item">This will be the tweets</li>
-        <li className="list-group-item">This will be the tweets</li>
-        <li className="list-group-item">This will be the tweets</li>
-        <li className="list-group-item">This will be the tweets</li>
-      </div>
-    );
+    if(this.props.news != '') {
+      const arrayNews = this.props.news.slice(1, 10).map((item) => {
+        return(
+          <div className="list-group-item">
+            <a key={item.uuid} href={item.url}>
+            {item.title ? item.title : 'An article related to your search'}
+            </a>            
+          </div>
+ 
+        );
+      });
+      return (
+        <div>
+          { arrayNews }          
+        </div>
+      );
+    }
+    return;
   }
   render() {
     return (
@@ -22,4 +33,9 @@ class SearchList extends Component {
   }
 }
 
-export default SearchList;
+function mapStateToProps(state) {
+  return {
+    news: state.news,
+  };
+}
+export default connect(mapStateToProps, null)(SearchList);

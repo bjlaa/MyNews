@@ -29,6 +29,8 @@
   "author": "Benjamin ARIAS",
   "license": "MIT",
   "dependencies": {
+    "axios": "0.15.0",
+    "fs": "0.0.1-security",
     "object-assign": "4.1.0",
     "react": "15.3.1",
     "react-dom": "15.3.1",
@@ -36,7 +38,11 @@
     "react-router": "2.7.0",
     "react-router-redux": "4.0.5",
     "redux": "3.5.2",
-    "redux-thunk": "2.1.0"
+    "redux-promise": "0.5.3",
+    "redux-promise-middleware": "4.1.0",
+    "redux-thunk": "2.1.0",
+    "tls": "0.0.1",
+    "ws": "1.1.1"
   },
   "devDependencies": {
     "autoprefixer": "6.4.0",
