@@ -39,7 +39,7 @@ h2 {
 }
 
 .search-list {
-  margin-top: 70px;
+  margin-top: 10px;
   ul {
     max-width: 600px;
     margin-left: auto;
@@ -85,6 +85,24 @@ h2 {
   &:focus {
     outline: orange auto 5px
   }   
+}
+
+.updated-time {
+  margin-top: 50px;
+  margin-left: 24%;
+}
+
+.updated-time-onupdate {
+  animation: onupdate 0.5s ease-in-out forwards;
+}
+
+@keyframes onupdate {
+  0% {
+    color: beige;
+  }
+  100% {
+    color: #4d4d4d;
+  }
 }
 
 .savings { color: $vin-green; }

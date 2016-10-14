@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import moment from 'moment';
 import * as actions from '../actions/searchBarActions';
 
 class SearchBar extends Component {
@@ -12,34 +13,53 @@ class SearchBar extends Component {
       'isSubmitDisabled': true,
       'previousNews': '',
       'validationClass':'',
-    };
-    this.setBasicNewsDisplay = this.setBasicNewsDisplay.bind(this);
+      'updatedTime': '',
+      'toggleAnimationClass': '',
+     };
+    this.refreshNews = this.refreshNews.bind(this);
     this.saveInterval = this.saveInterval.bind(this);
     this.clearInt = this.clearInt.bind(this);
-    this.saveSearchTerm = this.saveSearchTerm.bind(this);
     this.setEnableSubmit = this.setEnableSubmit.bind(this);
     this.setDisableSubmit = this.setDisableSubmit.bind(this);
     this.savePreviousNews = this.savePreviousNews.bind(this);
     this.addValidationClass = this.addValidationClass.bind(this);
+    this.updateTime = this.updateTime.bind(this);
+    this.toggleClass = this.toggleClass.bind(this);
+    this.renderUpdateMessage = this.renderUpdateMessage.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
   componentDidMount() {
     if(this.state.searchTerm == '') {
-      this.setBasicNewsDisplay();
+      this.refreshNews();
     }
   }
 
   componentDidUpdate() {
+    // This checks whether the latest news request was received 
     if(this.props.news != this.state.previousNews && this.state.isSubmitDisabled == true) {
       this.setEnableSubmit();
     }
   }
 
-  setBasicNewsDisplay() {
-    this.props.actions.launchSearch();
-    const interval = setInterval(() => this.props.actions.launchSearch(), 10000);
-    this.saveInterval(interval);    
+  refreshNews(searchTerm) {
+    if(!searchTerm) {
+      this.props.actions.launchSearch();
+      this.updateTime();
+      const interval = setInterval(() => {
+        this.props.actions.launchSearch();
+        this.updateTime();
+      }, 10000);
+      this.saveInterval(interval);
+      return;
+    }
+    this.props.actions.launchSearch(searchTerm);
+    this.updateTime();
+    const interval = setInterval(() => {
+      this.props.actions.launchSearch(searchTerm);
+      this.updateTime();
+    }, 10000);
+    this.saveInterval(interval);   
   }
 
   saveInterval(interval) {
@@ -47,13 +67,7 @@ class SearchBar extends Component {
   }
 
   clearInt() {
-    if(this.state.interval != '') {
-      clearInterval(this.state.interval);
-    }
-  }
-
-  saveSearchTerm(searchTerm) {
-    this.setState({'searchTerm': searchTerm});
+    clearInterval(this.state.interval);
   }
 
   clearSearchTerm() {
@@ -78,16 +92,33 @@ class SearchBar extends Component {
     }
   }
 
+  updateTime() {
+    this.toggleClass();
+    const time = moment().format('LTS');
+    this.setState({'updatedTime': time});
+    setTimeout(() => this.toggleClass(), 1000);
+  }
+
+  toggleClass() {
+    if(this.state.toggleAnimationClass == ''){
+      this.setState({'toggleAnimationClass': 'updated-time-onupdate'});
+      return;
+    }
+    this.setState({'toggleAnimationClass': ''});
+  }
+
+  renderUpdateMessage() {
+    const messageClass = `${this.state.toggleAnimationClass} updated-time col-md-10 col-md-offset-1`;
+    return <p className={messageClass} >Updated at {this.state.updatedTime}.</p>;
+  }
+
   handleSubmit(event) {
     event.preventDefault();
     this.setDisableSubmit();
     this.addValidationClass();
     this.clearInt();
     this.savePreviousNews(this.props.news);
-
-    const searchTerm = this.refs.searchInput.value;
-    this.saveSearchTerm(searchTerm);
-    this.props.actions.launchSearch(searchTerm);
+    this.refreshNews(this.state.searchTerm);
   }
 
   handleChange(event) {
@@ -98,10 +129,14 @@ class SearchBar extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit} className="col-md-10 col-md-offset-1 search-bar">
-        <input onBlur={this.addValidationClass} className={this.state.validationClass} required onChange={this.handleChange} ref="searchInput" value={this.state.searchTerm} autoFocus type="text" />
-        <input disabled={this.state.isSubmitDisabled} ref="submitButton" type="submit" value="Submit" />
-      </form>
+      <div>
+        <form onSubmit={this.handleSubmit} className="col-md-10 col-md-offset-1 search-bar">
+          <input onBlur={this.addValidationClass} className={this.state.validationClass} required onChange={this.handleChange} ref="searchInput" value={this.state.searchTerm} autoFocus type="text" />
+          <input disabled={this.state.isSubmitDisabled} ref="submitButton" type="submit" value="Submit" />
+        </form>
+        {this.renderUpdateMessage()}
+      </div>
+
     );
   }
 }
