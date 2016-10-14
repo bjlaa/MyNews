@@ -8,19 +8,38 @@ class SearchBar extends Component {
     super(props);
     this.state = {
       'interval': '',
-      'searchTerm': 'football',
-      'isSubmitDisabled': true,
+      'searchTerm': '',
+      'isSubmitDisabled': false,
       'previousNews': '',
-      'freshNews': '',
+      'validationClass':'',
     };
+    this.setBasicNewsDisplay = this.setBasicNewsDisplay.bind(this);
     this.saveInterval = this.saveInterval.bind(this);
     this.clearInt = this.clearInt.bind(this);
     this.saveSearchTerm = this.saveSearchTerm.bind(this);
+    this.setEnableSubmit = this.setEnableSubmit.bind(this);
     this.setDisableSubmit = this.setDisableSubmit.bind(this);
     this.savePreviousNews = this.savePreviousNews.bind(this);
-    this.saveFreshNews = this.saveFreshNews.bind(this);
+    this.addValidationClass = this.addValidationClass.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+  }
+  componentDidMount() {
+    if(this.state.searchTerm == '') {
+      this.setBasicNewsDisplay();
+    }
+  }
+
+  componentDidUpdate() {
+    if(this.props.news != this.state.previousNews && this.state.isSubmitDisabled == true) {
+      this.setEnableSubmit();
+    }
+  }
+
+  setBasicNewsDisplay() {
+    this.props.actions.launchSearch();
+    const interval = setInterval(() => this.props.actions.launchSearch(), 10000);
+    this.saveInterval(interval);    
   }
 
   saveInterval(interval) {
@@ -37,16 +56,24 @@ class SearchBar extends Component {
     this.setState({'searchTerm': searchTerm});
   }
 
-  setDisableSubmit() {
+  clearSearchTerm() {
+    this.setState({'searchTerm': ''});
+  }
+
+  setEnableSubmit() {
     this.setState({'isSubmitDisabled': false});
+  }
+
+  setDisableSubmit() {
+    this.setState({'isSubmitDisabled': true});
   }
 
   savePreviousNews(news) {
     this.setState({'previousNews': news});
   }
 
-  saveFreshNews(news) {
-    this.setState({'freshNews': news});
+  addValidationClass() {
+    this.setState({'validationClass': 'get-invalid-status'});
   }
 
   handleSubmit(event) {
@@ -58,21 +85,18 @@ class SearchBar extends Component {
     const searchTerm = this.refs.searchInput.value;
     this.saveSearchTerm(searchTerm);
     this.props.actions.launchSearch(searchTerm);
-
-    const interval = setInterval(() => this.props.actions.launchSearch(searchTerm), 10000);
-    this.saveInterval(interval);
   }
 
   handleChange(event) {
-    this.
+    this.addValidationClass();
     this.setState({'searchTerm': event.target.value});
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit} className="col-md-10 col-md-offset-1 search-bar">
-        <input onChange={this.handleChange} ref="searchInput" value={this.state.searchTerm} autoFocus type="text" />
-        <input disabled={!this.state.isSubmitDisabled} ref="submitButton" type="submit" value="Submit" />
+        <input className={this.state.validationClass} required onChange={this.handleChange} ref="searchInput" value={this.state.searchTerm} autoFocus type="text" />
+        <input disabled={this.state.isSubmitDisabled} ref="submitButton" type="submit" value="Submit" />
       </form>
     );
   }

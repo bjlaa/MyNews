@@ -6,9 +6,9 @@ class SearchList extends Component {
     if(this.props.news != '') {
       const arrayNews = this.props.news.slice(1, 10).map((item) => {
         return(
-          <div className="list-group-item">
-            <a key={item.uuid} href={item.url}>
-            {item.title ? item.title : 'An article related to your search'}
+          <div key={item.id} className="list-group-item">
+            <a href={item.webUrl}>
+            {`${item.sectionName}: ${item.webTitle}`}
             </a>            
           </div>
  
