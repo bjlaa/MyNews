@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 class SearchList extends Component {
   renderTweets() {
-    if(this.props.news != '') {
+    if(this.props.news != []) {
       const arrayNews = this.props.news.slice(1, 10).map((item) => {
         return(
           <div key={item.id} className="list-group-item">

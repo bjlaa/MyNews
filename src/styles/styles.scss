@@ -68,7 +68,7 @@ h2 {
     transition: all 0.2s ease-in;
   }
   input:first-child:valid {
-    background-image: url(http://www.iconsdb.com/icons/preview/guacamole-green/checkmark-xxl.png);
+    background-image: url(./checkmark.png);
     background-position: right;
     background-size: 13px;
     background-margin-right: 10px;
@@ -77,9 +77,9 @@ h2 {
 }
 
 .get-invalid-status:invalid {
-  background-image: url(http://www.clker.com/cliparts/P/L/K/6/8/o/crossmark1-hi.png);
+  background-image: url(./crossmark.png);
   background-position: right;
-  background-size: 15px;
+  background-size: 14px;
   background-margin-right: 10px;
   background-repeat: no-repeat; 
   &:focus {

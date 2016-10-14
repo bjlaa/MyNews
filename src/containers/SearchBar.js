@@ -9,7 +9,7 @@ class SearchBar extends Component {
     this.state = {
       'interval': '',
       'searchTerm': '',
-      'isSubmitDisabled': false,
+      'isSubmitDisabled': true,
       'previousNews': '',
       'validationClass':'',
     };
@@ -73,12 +73,15 @@ class SearchBar extends Component {
   }
 
   addValidationClass() {
-    this.setState({'validationClass': 'get-invalid-status'});
+    if(this.state.validationClass == '') {
+      this.setState({'validationClass': 'get-invalid-status'});
+    }
   }
 
   handleSubmit(event) {
     event.preventDefault();
     this.setDisableSubmit();
+    this.addValidationClass();
     this.clearInt();
     this.savePreviousNews(this.props.news);
 
@@ -89,13 +92,14 @@ class SearchBar extends Component {
 
   handleChange(event) {
     this.addValidationClass();
+    this.setEnableSubmit();
     this.setState({'searchTerm': event.target.value});
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit} className="col-md-10 col-md-offset-1 search-bar">
-        <input className={this.state.validationClass} required onChange={this.handleChange} ref="searchInput" value={this.state.searchTerm} autoFocus type="text" />
+        <input onBlur={this.addValidationClass} className={this.state.validationClass} required onChange={this.handleChange} ref="searchInput" value={this.state.searchTerm} autoFocus type="text" />
         <input disabled={this.state.isSubmitDisabled} ref="submitButton" type="submit" value="Submit" />
       </form>
     );
@@ -105,6 +109,7 @@ class SearchBar extends Component {
 SearchBar.propTypes = {
   launchSearch: PropTypes.func,
   actions: PropTypes.object,
+  news: PropTypes.array,
 };
 
 function mapStateToProps(state) {
