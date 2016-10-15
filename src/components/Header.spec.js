@@ -1,4 +1,4 @@
-import expect from 'expect';
+import expect from 'chai';
 import { mount } from 'enzyme';
 import React from 'react';
 

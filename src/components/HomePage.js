@@ -2,7 +2,7 @@ import React from 'react';
 
 import Header from './Header';
 import SearchBar from '../containers/SearchBar';
-import SearchList from './SearchList';
+import SearchList from '../containers/SearchList';
 
 const HomePage = () => {
   return (

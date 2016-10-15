@@ -131,8 +131,9 @@ class SearchBar extends Component {
     return (
       <div>
         <form onSubmit={this.handleSubmit} className="col-md-10 col-md-offset-1 search-bar">
-          <input onBlur={this.addValidationClass} className={this.state.validationClass} required onChange={this.handleChange} ref="searchInput" value={this.state.searchTerm} autoFocus type="text" />
-          <input disabled={this.state.isSubmitDisabled} ref="submitButton" type="submit" value="Submit" />
+          <label className="label" htmlFor="input-search">Search</label>
+          <input id="input-search" onBlur={this.addValidationClass} className={this.state.validationClass} required onChange={this.handleChange} ref="searchInput" value={this.state.searchTerm} autoFocus type="text" />
+          <input disabled={this.state.isSubmitDisabled} ref="submitButton" type="submit" value="Search" />
         </form>
         {this.renderUpdateMessage()}
       </div>

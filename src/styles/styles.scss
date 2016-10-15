@@ -14,12 +14,8 @@ body {
   font-weight: 300;
 }
 
-td {
-	padding: 12px;
-}
-
 h2 {
-	color: $vin-blue;
+	color: #254856;
 }
 
 .container {
@@ -48,7 +44,10 @@ h2 {
 }
 .search-bar {
   text-align: center;
-  input:first-child {
+  label {
+    visibility: hidden;
+  }
+  input:nth-child(2) {
     background-color: white;
     border: rgba(51, 51, 51, 1) 3px solid;
     padding-right:15px;
@@ -67,7 +66,7 @@ h2 {
     color: white;
     transition: all 0.2s ease-in;
   }
-  input:first-child:valid {
+  input:nth-child(2):valid {
     background-image: url(./checkmark.png);
     background-position: right;
     background-size: 13px;
@@ -104,8 +103,3 @@ h2 {
     color: #4d4d4d;
   }
 }
-
-.savings { color: $vin-green; }
-.loss { color: $vin-red; }
-input.small { width: 46px; }
-td.fuel-savings-label { width: 175px; }
