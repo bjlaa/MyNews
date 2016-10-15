@@ -1,7 +1,6 @@
 import { LAUNCH_SEARCH } from '../constants/actionTypes';
 
 function SearchBarReducer(state = [], action) {
-  console.log(action);
   switch (action.type) {
     case LAUNCH_SEARCH:
       return action.payload.data.response.results;

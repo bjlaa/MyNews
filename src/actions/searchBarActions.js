@@ -10,7 +10,6 @@ export function launchSearch(searchTerm) {
   } else {
     url = `https://content.guardianapis.com/search?&api-key=c1f53e50-8061-42ea-8938-bc68439d90cd`;
   }
-  console.log(url);
   const request = axios.get(url);
   return {
     type: types.LAUNCH_SEARCH,

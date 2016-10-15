@@ -12,6 +12,7 @@ body {
   -moz-font-smoothing: antialiased;
   font-smoothing: antialiased;
   font-weight: 300;
+  background-color: rgba(255, 255, 204, 0.2);
 }
 
 h2 {
@@ -20,7 +21,6 @@ h2 {
 
 .container {
   display: block;
-  background-color: rgba(255, 255, 204, 0.2);
   height: 100vh;
 }
 
@@ -46,17 +46,18 @@ h2 {
   text-align: center;
   label {
     visibility: hidden;
+    position: fixed;
   }
   input:nth-child(2) {
     background-color: white;
-    border: rgba(51, 51, 51, 1) 3px solid;
+    border: rgba(51, 51, 51, 0.6) 2px solid;
     padding-right:15px;
     border-radius: 5px;
     margin-right: 10px;
   }
   input:last-child {
     background-color: rgba(51, 51, 51, 0.5);
-    border: rgba(51, 51, 51, 1) 3px solid;
+    border: rgba(51, 51, 51, 0.6) 2px solid;
     border-radius: 5px;
     color: white;
   }
@@ -82,7 +83,7 @@ h2 {
   background-margin-right: 10px;
   background-repeat: no-repeat; 
   &:focus {
-    outline: orange auto 5px
+    outline: #fb8383 auto 5px
   }   
 }
 

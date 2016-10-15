@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 class SearchList extends Component {
@@ -32,6 +32,10 @@ class SearchList extends Component {
     );
   }
 }
+
+SearchList.propTypes = {
+  news: PropTypes.array,
+};
 
 function mapStateToProps(state) {
   return {
