@@ -1,7 +1,7 @@
 {
-  "name": "my-search",
+  "name": "my-news",
   "version": "0.1.0",
-  "description": "A cool app allowing users to search infos about their favourite things!",
+  "description": "A cool app allowing users to get news via TheGuardian API.",
   "engines": {
     "npm": ">=3"
   },
