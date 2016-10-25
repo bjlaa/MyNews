@@ -1,3 +1,4 @@
+/*
 import * as ActionTypes from '../constants/actionTypes';
 
 import MockDate from 'mockdate';
@@ -47,6 +48,7 @@ describe('Store', () => {
     expect(actual.fuelSavings).to.deep.equal(expected);
   });
 
+
   it('should not display results when necessary data is not provided', () => {
     const store = createStore(rootReducer, initialState);
 
@@ -80,7 +82,7 @@ describe('Store', () => {
     expect(actual.fuelSavings).to.deep.equal(expected);
   });
 
-
+  
   it('should handle a flurry of actions', () => {
     const store = createStore(rootReducer, initialState);
 
@@ -132,3 +134,4 @@ describe('Store', () => {
     expect(actual.fuelSavings).to.deep.equal(expected);
   });
 });
+*/

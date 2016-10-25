@@ -15,6 +15,15 @@ const store = configureStore();
 // Create an enhanced history that syncs navigation events with the store
 const history = syncHistoryWithStore(browserHistory, store);
 
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw-dev.js', {scope:'/'})
+  .then((reg) => {
+    console.log('Registration succeeded. Scope is: ', reg.scope);
+  }).catch((error) => {
+    console.log('Registration failed: ', error);
+  });
+}
+
 render(
   <Provider store={store}>
     <Router history={history} routes={routes} />

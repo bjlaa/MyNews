@@ -36,7 +36,7 @@ export default {
         collapseWhitespace: true
       },
       inject: true
-    })
+    }),
   ],
   module: {
     loaders: [
