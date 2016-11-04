@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
-import idb from 'idb';
 import * as actions from '../actions/searchBarActions';
 
 class SearchBar extends Component {
@@ -17,8 +16,6 @@ class SearchBar extends Component {
       'updatedTime': '',
       'toggleAnimationClass': '',
      };
-    this.createDB = this.createDB.bind(this);
-    this.updateDB = this.updateDB.bind(this);
     this.refreshNews = this.refreshNews.bind(this);
     this.saveInterval = this.saveInterval.bind(this);
     this.clearInt = this.clearInt.bind(this);
@@ -43,26 +40,6 @@ class SearchBar extends Component {
     if(this.props.news != this.state.previousNews && this.state.isSubmitDisabled == true) {
       this.setEnableSubmit();
     }
-  }
-/* eslint-disable */
-  createDB() {
-    return idb.open('myNews-db1', 1, (upgradeDb) => {
-      const articlesStore = upgradeDb.createObjectStore('articlesStore', {keyPath: 'id'});
-    });
-  }
-/* eslint-enable */
-  updateDB() {
-    this.createDB()
-    .then((db) => {
-      const articles = this.props.news;
-      const tx = db.transaction('articlesStore', 'readwrite');
-      const store = tx.objectStore('articlesStore');  
-      store.clear();
-      articles.forEach((article) => {
-        store.put(article);
-      });
-      return tx.complete;
-    });
   }
 
   refreshNews(searchTerm) {
