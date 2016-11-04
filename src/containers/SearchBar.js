@@ -44,13 +44,13 @@ class SearchBar extends Component {
       this.setEnableSubmit();
     }
   }
-
+/* eslint-disable */
   createDB() {
     return idb.open('myNews-db1', 1, (upgradeDb) => {
-      const articlesStore = upgradeDb.createObjectStore('articlesStore');
+      const articlesStore = upgradeDb.createObjectStore('articlesStore', {keyPath: 'id'});
     });
   }
-
+/* eslint-enable */
   updateDB() {
     this.createDB()
     .then((db) => {

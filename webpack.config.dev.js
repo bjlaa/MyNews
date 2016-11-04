@@ -2,6 +2,7 @@ import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import autoprefixer from 'autoprefixer';
 import path from 'path';
+import ServiceWorkerWebpackPlugin from 'serviceworker-webpack-plugin';
 
 export default {
   resolve: {
@@ -36,6 +37,14 @@ export default {
         collapseWhitespace: true
       },
       inject: true
+    }),
+    new ServiceWorkerWebpackPlugin({
+      entry: path.join(__dirname, 'src/sw.js'),
+      excludes: [
+        '**/.*',
+        '**/*.map',
+        '*.html',
+      ],
     }),
   ],
   module: {
