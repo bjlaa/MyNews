@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import idb from 'idb';
 
@@ -39,7 +39,7 @@ class SearchList extends Component {
           </div>
         );       
       }
-      return <div>No News were stored. Please visit MyNews while being connected to internet in order to fully experience the power of offline first Web Apps.</div>;
+      return <div className="list-group-item">No News were stored. Please visit MyNews while being connected to internet in order to fully experience the power of offline first Web Apps.</div>;
     }
     if(this.props.news !== [] && this.props.news !== 'Network Error') {
       const arrayNews = this.props.news.slice(0, 10).map((item) => {
