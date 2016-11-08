@@ -25,6 +25,7 @@ class SearchBar extends Component {
     this.addValidationClass = this.addValidationClass.bind(this);
     this.updateTime = this.updateTime.bind(this);
     this.toggleClass = this.toggleClass.bind(this);
+    this.selectText = this.selectText.bind(this);
     this.renderUpdateMessage = this.renderUpdateMessage.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -107,13 +108,22 @@ class SearchBar extends Component {
     this.setState({'toggleAnimationClass': ''});
   }
 
+  selectText() {
+    setTimeout(() => {
+      this.refs.searchInput.select();
+    }, 50);
+  }
+
   renderUpdateMessage() {
-    const messageClass = `${this.state.toggleAnimationClass} updated-time col-md-10 col-md-offset-1`;
-    return <p className={messageClass} >Updated at {this.state.updatedTime}.</p>;
+    if(this.props.news !== 'Network Error') {
+      const messageClass = `${this.state.toggleAnimationClass} updated-time col-md-10 col-md-offset-1`;
+      return <p className={messageClass} >Updated at {this.state.updatedTime}.</p>;      
+    }
   }
 
   handleSubmit(event) {
     event.preventDefault();
+    this.refs.searchInput.blur();
     this.setDisableSubmit();
     this.addValidationClass();
     this.clearInt();
@@ -132,7 +142,7 @@ class SearchBar extends Component {
       <div>
         <form onSubmit={this.handleSubmit} className="col-md-10 col-md-offset-1 search-bar">
           <label className="label" htmlFor="input-search">Search</label>
-          <input id="input-search" onBlur={this.addValidationClass} className={this.state.validationClass} required onChange={this.handleChange} ref="searchInput" value={this.state.searchTerm} autoFocus type="text" />
+          <input ref="searchInput" id="input-search" onFocus={this.selectText} onBlur={this.addValidationClass} className={this.state.validationClass} required onChange={this.handleChange} value={this.state.searchTerm} autoFocus type="text" />
           <input disabled={this.state.isSubmitDisabled} ref="submitButton" type="submit" value="Search" />
         </form>
         {this.renderUpdateMessage()}
