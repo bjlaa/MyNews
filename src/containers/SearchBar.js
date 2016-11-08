@@ -15,6 +15,8 @@ class SearchBar extends Component {
       'validationClass':'',
       'updatedTime': '',
       'toggleAnimationClass': '',
+      'valueSubmitButton': 'Search',
+      'coordinates': '',
      };
     this.refreshNews = this.refreshNews.bind(this);
     this.saveInterval = this.saveInterval.bind(this);
@@ -33,6 +35,29 @@ class SearchBar extends Component {
   componentDidMount() {
     if(this.state.searchTerm == '') {
       this.refreshNews();
+    }
+    if (navigator.geolocation) {
+      const options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+      };
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const long = position.coords.longitude;
+          fetch(`http://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}`)
+          .then((response) => response.json())
+          .then((data) => {
+            const city = data.results[3].address_components[0].long_name;
+            if (typeof city !== undefined) {
+              this.setState({'valueSubmitButton': `Search from ${city}`});              
+            }
+          });
+        }, 
+        (error) => console.log(error), 
+        options
+      );
     }
   }
 
@@ -143,7 +168,7 @@ class SearchBar extends Component {
         <form onSubmit={this.handleSubmit} className="col-md-10 col-md-offset-1 search-bar">
           <label className="label" htmlFor="input-search">Search</label>
           <input ref="searchInput" id="input-search" onFocus={this.selectText} onBlur={this.addValidationClass} className={this.state.validationClass} required onChange={this.handleChange} value={this.state.searchTerm} autoFocus type="text" />
-          <input disabled={this.state.isSubmitDisabled} ref="submitButton" type="submit" value="Search" />
+          <input disabled={this.state.isSubmitDisabled} ref="submitButton" type="submit" value={this.state.valueSubmitButton} />
         </form>
         {this.renderUpdateMessage()}
       </div>
